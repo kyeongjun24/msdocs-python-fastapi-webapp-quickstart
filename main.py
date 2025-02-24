@@ -97,4 +97,4 @@ async def index_search(request: Request, question:str = ''):
 
 
 # token으로 sharepoint 조회하는 기능 추가 예정
-# 02/19 : 401 에러 발생
+# 02/21 : 401 에러 발생
