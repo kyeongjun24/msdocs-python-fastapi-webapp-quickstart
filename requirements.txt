@@ -2,6 +2,5 @@ fastapi
 uvicorn
 jinja2
 python-multipart
-json
 os
 ssl
