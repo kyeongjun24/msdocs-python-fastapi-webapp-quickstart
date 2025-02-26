@@ -72,7 +72,7 @@ async def list(request: Request, question:str = 'donald trump'):
 
 # Index 사용 : sharepoint 질의응답
 @app.get("/index")
-async def index_search(request: Request, question:str = ''):
+async def index_search(request: Request, question:str):
 
     url = 'https://test-0116.koreacentral.inference.ml.azure.com/score'
     api_key = 'j2pgwSOFeaIzw3cA8ypSP2KvVSBh6R0w'
