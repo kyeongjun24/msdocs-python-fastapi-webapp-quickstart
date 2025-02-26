@@ -100,12 +100,12 @@ async def index_search(request: Request, question:str):
 @app.get("/sptoken")
 async def token_search(request: Request, question:str = ''):
 
-    url = 'https://aipjt-sharepoint-token.koreacentral.inference.ml.azure.com/score'
-    api_key = 'BqIHOT1dvqENpIPNRIM2yUSTqZcfmMFqd4smROuHEkOjQq2chleOJQQJ99BBAAAAAAAAAAAAINFRAZML1mXB'
+    url = 'https://aipjt-sharepoint-token-0226.koreacentral.inference.ml.azure.com/score'
+    api_key = 'Ff5VQIP05srzuoZVUmXgQDnmsXxR8o9pIiGbbrNp7V2lrR2LkGFLJQQJ99BBAAAAAAAAAAAAINFRAZML3LQV'
     if not api_key:
         raise Exception("A key should be provided to invoke the endpoint")
 
-    data = {"input": question}
+    data = {"topic": question}
     body = str.encode(json.dumps(data))
     headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key)}
     req = urllib.request.Request(url, body, headers)
