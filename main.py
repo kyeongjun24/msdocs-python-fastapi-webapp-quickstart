@@ -96,5 +96,27 @@ async def index_search(request: Request, question:str = ''):
         return error.info()
 
 
-# token으로 sharepoint 조회하는 기능 추가 예정
-# 02/21 : 401 에러 발생
+# token으로 sharepoint 조회하는 기능
+@app.get("/sptoken")
+async def token_search(request: Request, question:str = ''):
+
+    url = 'https://aipjt-sharepoint-token.koreacentral.inference.ml.azure.com/score'
+    api_key = 'BqIHOT1dvqENpIPNRIM2yUSTqZcfmMFqd4smROuHEkOjQq2chleOJQQJ99BBAAAAAAAAAAAAINFRAZML1mXB'
+    if not api_key:
+        raise Exception("A key should be provided to invoke the endpoint")
+
+    data = {"input": question}
+    body = str.encode(json.dumps(data))
+    headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key)}
+    req = urllib.request.Request(url, body, headers)
+
+    try:
+        response = urllib.request.urlopen(req)
+        result = response.read()
+        print(result)
+        return result
+    except urllib.error.HTTPError as error:
+        print("The request failed with status code: " + str(error.code))
+        print(error.info())
+        print(error.read().decode("utf8", 'ignore'))
+        return error.info()
