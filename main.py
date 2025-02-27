@@ -74,8 +74,8 @@ async def list(request: Request, question:str = 'donald trump'):
 @app.get("/index")
 async def index_search(request: Request, question:str):
 
-    url = 'https://test-0116.koreacentral.inference.ml.azure.com/score'
-    api_key = 'j2pgwSOFeaIzw3cA8ypSP2KvVSBh6R0w'
+    url = 'https://aipjt-sharepoint-index-0227.koreacentral.inference.ml.azure.com/score'
+    api_key = '9EWSwRLJ5qjz0xVexmApROwZKbAVndJIZ1bAyogU4soi2GxtHrXhJQQJ99BBAAAAAAAAAAAAINFRAZML1Q2q'
     if not api_key:
         raise Exception("A key should be provided to invoke the endpoint")
 
