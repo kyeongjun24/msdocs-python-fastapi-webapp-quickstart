@@ -2,6 +2,9 @@ from fastapi import FastAPI, Form, Request, status
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from office365.sharepoint.client_context import ClientContext
+from office365.runtime.auth.authentication_context import AuthenticationContext
+from office365.sharepoint.files.file import File
 import uvicorn
 import urllib.request
 import ssl
@@ -44,7 +47,35 @@ def allowSelfSignedHttps(allowed):
 allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
 
 
-# ID/PW 인증 : sharepoint내 파일 리스트 조회
+# ID/PW 인증 : sharepoint내 파일 리스트 조회 (python 직접)
+@app.get("/list2")
+async def list2(request: Request, question:str = 'donald trump'):
+
+    url = 'https://aipjt-sharepoint-list-id.koreacentral.inference.ml.azure.com/score'
+    api_key = 'Bv6nwhfsCzpfpq7SYSUEg6sPqF2KzZc6YkVNDCPoLC6CLhKNXbJAJQQJ99BCAAAAAAAAAAAAINFRAZML3HyR'
+    if not api_key:
+        raise Exception("A key should be provided to invoke the endpoint")
+
+    data = {}
+    body = str.encode(json.dumps(data))
+    headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key)}
+    req = urllib.request.Request(url, body, headers)
+
+    try:
+        response = urllib.request.urlopen(req)
+        result = response.read()
+        print(result)
+        return result
+    except urllib.error.HTTPError as error:
+        print("The request failed with status code: " + str(error.code))
+
+        # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
+        print(error.info())
+        print(error.read().decode("utf8", 'ignore'))
+        return error.info()
+
+
+# ID/PW 인증 : sharepoint내 파일 리스트 조회 (promptflow 사용)
 @app.get("/list")
 async def list(request: Request, question:str = 'donald trump'):
 
@@ -73,6 +104,10 @@ async def list(request: Request, question:str = 'donald trump'):
 # Index 사용 : sharepoint 질의응답
 @app.get("/index")
 async def index_search(request: Request, question:str):
+
+    # Sharepoint 권한별 검색 및 생성형 답변
+    # ID 가져옴
+    # ID와 
 
     url = 'https://aipjt-sharepoint-index-0227.koreacentral.inference.ml.azure.com/score'
     api_key = '9EWSwRLJ5qjz0xVexmApROwZKbAVndJIZ1bAyogU4soi2GxtHrXhJQQJ99BBAAAAAAAAAAAAINFRAZML1Q2q'
